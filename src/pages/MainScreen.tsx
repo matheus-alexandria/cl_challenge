@@ -1,3 +1,5 @@
+import { SubmitButton } from "../components/SubmitButton";
+
 export function MainScreen() {
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-zinc-300">
@@ -7,7 +9,7 @@ export function MainScreen() {
         >
           CodeLeap Network
         </header>
-        <form className="m-6 border-2 border-gray-400 p-3 rounded-xl flex flex-col gap-4">
+        <form className="m-6 border-2 border-gray-400 py-3 px-5 rounded-xl flex flex-col gap-4">
           <h1 className="font-extrabold text-lg">What's on your mind?</h1>
           <div>
             <p>Title</p>
@@ -24,14 +26,7 @@ export function MainScreen() {
               className="w-full resize-none border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
             />
           </div>
-          <div className="flex justify-end">
-            <button 
-              type="submit" 
-              className="w-32 h-8 bg-blue-400 my-3 rounded-lg text-white font-bold hover:bg-blue-600 transition-colors"
-            >
-              CREATE
-            </button>
-          </div>
+          <SubmitButton title="CREATE" />
         </form>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react"
+import { SubmitButton } from "../components/SubmitButton";
 
 export function SignUp() {
   const [login, setLogin] = useState("");
@@ -22,14 +23,7 @@ export function SignUp() {
               onChange={(e) => setLogin(e.target.value)}
             />
           </div>
-          <div className="flex justify-end">
-            <button 
-              type="submit" 
-              className="w-32 h-8 bg-blue-400 rounded-lg text-white font-bold hover:bg-blue-600 transition-colors"
-            >
-              ENTER
-            </button>
-          </div>
+          <SubmitButton title="ENTER" />
         </form>
       </div>
     </div>
