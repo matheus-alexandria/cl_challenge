@@ -8,8 +8,8 @@ export function SubmitButton({ title, disabled = true }: SubmitButtonProps) {
     <div className="flex justify-end">
       <button 
         type="submit" 
-        className={`w-32 h-8 my-3 rounded-lg text-white font-bold ${
-          disabled ? 'bg-gray-500' : 'bg-blue-400 hover:bg-blue-600 transition-colors'
+        className={`w-32 h-8 my-3 rounded-lg text-white font-bold transition-colors ${
+          disabled ? 'bg-gray-500 opacity-75' : 'bg-light-blue-400 hover:bg-light-blue-600'
         }`}
         disabled={disabled}
       >

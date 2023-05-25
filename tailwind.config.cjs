@@ -2,7 +2,14 @@
 module.exports = {
   content: ["./src/**/*.tsx", "./index.html"],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        'light-blue': {
+          400: '#7695EC',
+          600: '#3d6ceb'
+        }
+      },
+    }
   },
   plugins: []
 };
