@@ -1,8 +1,11 @@
 import { FormEvent, useState } from "react"
 import { SubmitButton } from "../components/SubmitButton";
+import { useDispatch } from "react-redux";
+import { setLoginUsername } from "../redux/login/login.actions";
 
 export function SignUp() {
   const [login, setLogin] = useState("");
+  const dispatch = useDispatch();
 
   function handleButtonDisabled() {
     if (login.length > 0) {
@@ -14,7 +17,7 @@ export function SignUp() {
 
   function handleLoginSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (login === "Matheus") console.log("Enter");
+    if (login === "Matheus") dispatch(setLoginUsername(login));
   }
 
   return (

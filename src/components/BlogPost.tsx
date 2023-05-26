@@ -1,10 +1,17 @@
+import { useMemo } from "react";
 import { PostData } from "../models/PostData"
+import { calculateTimeSincePosted } from "../actions/calculateTimeSincePosted";
 
 interface BlogPostProps {
   post: PostData;
 }
 
 export function BlogPost({ post }: BlogPostProps) {
+  const timeSincePosted = useMemo(() => {
+    const postDate = new Date(post.created_datetime);
+    return calculateTimeSincePosted(postDate);
+  }, [post]);
+
   return (
     <div className="m-6 flex flex-col">
       <header 
@@ -33,7 +40,7 @@ export function BlogPost({ post }: BlogPostProps) {
       <section className="px-6 rounded-b-xl border-b-2 border-x-2 border-gray-400">
         <div className="flex justify-between mt-6 text-gray-500">
           <span>@<b>{post.username}</b></span>
-          <span>25 min ago</span>
+          <span>{timeSincePosted} ago</span>
         </div>
 
         <p className="pb-6 pt-4">

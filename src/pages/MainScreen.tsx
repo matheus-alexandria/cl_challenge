@@ -25,8 +25,7 @@ export function MainScreen() {
       .then(response => response.json())
       .then((data) => {
         const results: PostData[] = data.results;
-        console.log(results[0]);
-        if (results) setBlogPosts([results[0]]);
+        if (results) setBlogPosts(results);
       });
   }, []);
 
@@ -65,7 +64,7 @@ export function MainScreen() {
 
         {blogPosts.map((blogPost) => {
           return (
-            <BlogPost post={blogPost} />
+            <BlogPost key={blogPost.id} post={blogPost} />
           )
         })}
       </div>
