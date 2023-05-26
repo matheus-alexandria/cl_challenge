@@ -7,9 +7,10 @@ import { deletePostRequest } from "../actions/deletePostRequest";
 
 interface BlogPostProps {
   post: PostData;
+  handleRemovePost: (id: number) => void;
 }
 
-export function BlogPost({ post }: BlogPostProps) {
+export function BlogPost({ post, handleRemovePost }: BlogPostProps) {
   const loginUsername = useSelector<RootState, string>(
     (state: RootState) => state.login.loginUsername
   );
@@ -20,9 +21,10 @@ export function BlogPost({ post }: BlogPostProps) {
   }, [post]);
 
   async function handleDeletePost(id: number) {
-    console.log(id);
     const status = await deletePostRequest(id);
-    console.log(status);
+    if (status === 204) {
+      handleRemovePost(id);
+    }
   }
 
   return (

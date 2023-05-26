@@ -18,8 +18,12 @@ export function MainScreen() {
     if (title.length > 0 && content.length > 0) {
       return false;
     }
-
     return true;
+  }
+
+  function handleRemovePost(id: number) {
+    const newPosts = blogPosts.filter((bp) => bp.id !== id);
+    setBlogPosts(newPosts);
   }
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
@@ -81,7 +85,11 @@ export function MainScreen() {
 
         {blogPosts.map((blogPost) => {
           return (
-            <BlogPost key={blogPost.id} post={blogPost} />
+            <BlogPost 
+              key={blogPost.id} 
+              post={blogPost} 
+              handleRemovePost={handleRemovePost} 
+            />
           )
         })}
       </div>
