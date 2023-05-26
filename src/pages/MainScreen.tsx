@@ -2,11 +2,17 @@ import { FormEvent, useEffect, useState } from "react";
 import { SubmitButton } from "../components/SubmitButton";
 import { BlogPost } from "../components/BlogPost";
 import { PostData } from "../models/PostData";
+import { sendPostRequest } from "../actions/sendPostRequest";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux";
 
 export function MainScreen() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [blogPosts, setBlogPosts] = useState<PostData[]>([]);
+  const loginUsername = useSelector<RootState, string>(
+    (state: RootState) => state.login.loginUsername
+  );
 
   function handleButtonDisabled() {
     if (title.length > 0 && content.length > 0) {
@@ -16,8 +22,17 @@ export function MainScreen() {
     return true;
   }
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const newPost: PostData = await sendPostRequest({
+      username: loginUsername,
+      title,
+      content
+    });
+
+    setBlogPosts((blogPosts) => [newPost, ...blogPosts]);
+    setTitle("");
+    setContent("");
   }
 
   useEffect(() => {
@@ -30,7 +45,7 @@ export function MainScreen() {
   }, []);
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-[#dddddd]">
+    <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
       <div className="w-1/2 h-full bg-white">
         <header 
           className="w-full h-2 flex items-center px-6 py-8 bg-light-blue-400 text-white font-bold"
@@ -48,6 +63,7 @@ export function MainScreen() {
               type="text" 
               placeholder="Hello world"
               className="w-full border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
@@ -56,6 +72,7 @@ export function MainScreen() {
             <textarea
               placeholder="Content here"
               className="w-full h-[74px] resize-none border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
+              value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
