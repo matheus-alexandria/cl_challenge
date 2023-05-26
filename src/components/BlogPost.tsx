@@ -1,11 +1,17 @@
-export function BlogPost() {
+import { PostData } from "../models/PostData"
+
+interface BlogPostProps {
+  post: PostData;
+}
+
+export function BlogPost({ post }: BlogPostProps) {
   return (
     <div className="m-6 flex flex-col">
       <header 
         className="w-full h-[4.4rem] bg-light-blue-400 flex items-center justify-between px-6 rounded-t-xl border-2 border-light-blue-400"
       >
-        <h1 className="text-white font-bold text-xl">Title</h1>
-        <div className="flex gap-4">
+        <h1 className="text-white font-bold text-xl">{post.title}</h1>
+        <div className="flex gap-[2.1rem]">
           <button>
             <svg width="19" height="24" viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.80087 20.75C1.80087 22.125 2.971 23.25 4.40115 23.25H14.8023C16.2324 23.25 17.4025 22.125 17.4025 20.75V5.75H1.80087V20.75ZM4.99921 11.85L6.83241 10.0875L9.6017 12.7375L12.358 10.0875L14.1912 11.85L11.4349 14.5L14.1912 17.15L12.358 18.9125L9.6017 16.2625L6.84541 18.9125L5.01221 17.15L7.76851 14.5L4.99921 11.85ZM14.1522 2L12.852 0.75H6.35136L5.05122 2H0.500732V4.5H18.7027V2H14.1522Z" fill="white"/>
@@ -26,12 +32,12 @@ export function BlogPost() {
       
       <section className="px-6 rounded-b-xl border-b-2 border-x-2 border-gray-400">
         <div className="flex justify-between mt-6 text-gray-500">
-          <span>@<b>Matheus</b></span>
+          <span>@<b>{post.username}</b></span>
           <span>25 min ago</span>
         </div>
 
         <p className="pb-6 pt-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          {post.content}
         </p>
       </section>
     </div>
