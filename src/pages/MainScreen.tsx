@@ -3,8 +3,9 @@ import { SubmitButton } from "../components/SubmitButton";
 import { BlogPost } from "../components/BlogPost";
 import { PostData } from "../models/PostData";
 import { sendPostRequest } from "../actions/sendPostRequest";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
+import { setLoginUsername } from "../redux/login/login.actions";
 
 export function MainScreen() {
   const [title, setTitle] = useState("");
@@ -13,6 +14,7 @@ export function MainScreen() {
   const loginUsername = useSelector<RootState, string>(
     (state: RootState) => state.login.loginUsername
   );
+  const dispatch = useDispatch();
 
   function handleButtonDisabled() {
     if (title.length > 0 && content.length > 0) {
@@ -39,6 +41,11 @@ export function MainScreen() {
     setContent("");
   }
 
+  function handleLogout() {
+    localStorage.removeItem("codeLeapLogin");
+    dispatch(setLoginUsername(""));
+  }
+
   useEffect(() => {
     fetch('https://dev.codeleap.co.uk/careers/')
       .then(response => response.json())
@@ -52,9 +59,15 @@ export function MainScreen() {
     <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
       <div className="w-1/2 h-full bg-white">
         <header 
-          className="w-full h-2 flex items-center px-6 py-8 bg-light-blue-400 text-white font-bold"
+          className="w-full h-2 flex items-center justify-between px-6 py-8 bg-light-blue-400"
         >
-          CodeLeap Network
+          <p className="text-white font-bold">CodeLeap Network</p>
+          <button 
+            className="text-white text-sm border-2 p-1 rounded-lg hover:bg-light-blue-600 transition-colors"
+            onClick={() => handleLogout()}
+          >
+            Logout
+          </button>
         </header>
         <form
           className="m-6 border-2 border-gray-400 py-3 px-5 rounded-xl flex flex-col gap-4"
