@@ -7,13 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { setLoginUsername } from "../redux/login/login.actions";
 import { DeleteConfirmationModal } from "../components/DeleteConfirmationModal";
+import { getPostsRequests } from "../actions/getPostsRequest";
+import { UpdateFormModal } from "../components/UpdateFormModal";
 
 export function MainScreen() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [blogPosts, setBlogPosts] = useState<PostData[]>([]);
-  const [postId, setPostId] = useState<number | null>(null);
+  const [currentPost, setCurrentPost] = useState<PostData | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const loginUsername = useSelector<RootState, string>(
     (state: RootState) => state.login.loginUsername
   );
@@ -49,30 +52,39 @@ export function MainScreen() {
     dispatch(setLoginUsername(""));
   }
 
-  function handleSetPostId(id: number) {
-    setPostId(id);
+  function handleSetCurrentPost(post: PostData) {
+    setCurrentPost(post);
   }
 
   function toggleDeleteConfirmationModal() {
     setIsDeleteModalOpen(!isDeleteModalOpen);
   }
 
+  function toggleUpdateConfirmationModal() {
+    setIsUpdateModalOpen(!isUpdateModalOpen);
+  }
+
   useEffect(() => {
-    fetch('https://dev.codeleap.co.uk/careers/')
-      .then(response => response.json())
-      .then((data) => {
-        const results: PostData[] = data.results;
-        if (results) setBlogPosts(results);
-      });
+    getPostsRequests()
+    .then(posts => {
+      if (posts) setBlogPosts(posts);
+    });
   }, []);
 
   return (
     <>
       {isDeleteModalOpen && (
         <DeleteConfirmationModal 
-          id={postId} 
+          id={currentPost ? currentPost.id : null} 
           handleRemovePost={handleRemovePost}
           toggleDeleteConfirmationModal={toggleDeleteConfirmationModal}
+        />
+      )}
+      {isUpdateModalOpen && (
+        <UpdateFormModal 
+          currentPostTitle={currentPost ? currentPost.title : ""} 
+          currentPostContent={currentPost ? currentPost.content : ""}
+          toggleUpdateConfirmationModal={toggleUpdateConfirmationModal}
         />
       )}
       <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
@@ -120,7 +132,7 @@ export function MainScreen() {
               <BlogPost 
                 key={blogPost.id} 
                 post={blogPost} 
-                handleSetPostId={handleSetPostId}
+                handleSetCurrentPost={handleSetCurrentPost}
                 toggleDeleteConfirmationModal={toggleDeleteConfirmationModal} 
               />
             )

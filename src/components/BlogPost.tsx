@@ -3,17 +3,16 @@ import { PostData } from "../models/PostData"
 import { calculateTimeSincePosted } from "../actions/calculateTimeSincePosted";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
-import { deletePostRequest } from "../actions/deletePostRequest";
 
 interface BlogPostProps {
   post: PostData;
-  handleSetPostId: (id: number) => void;
+  handleSetCurrentPost: (post: PostData) => void;
   toggleDeleteConfirmationModal: () => void;
 }
 
 export function BlogPost({ 
   post, 
-  handleSetPostId, 
+  handleSetCurrentPost, 
   toggleDeleteConfirmationModal 
 }: BlogPostProps) {
   const loginUsername = useSelector<RootState, string>(
@@ -26,7 +25,7 @@ export function BlogPost({
   }, [post]);
 
   function openConfirmationModal() {
-    handleSetPostId(post.id);
+    handleSetCurrentPost(post);
     toggleDeleteConfirmationModal();
   }
 
