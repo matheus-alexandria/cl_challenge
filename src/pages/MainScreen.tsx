@@ -6,6 +6,7 @@ import { sendPostRequest } from "../actions/sendPostRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { setLoginUsername } from "../redux/login/login.actions";
+import { DeleteConfirmationModal } from "../components/DeleteConfirmationModal";
 
 export function MainScreen() {
   const [title, setTitle] = useState("");
@@ -56,56 +57,59 @@ export function MainScreen() {
   }, []);
 
   return (
-    <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
-      <div className="w-1/2 h-full bg-white">
-        <header 
-          className="w-full h-2 flex items-center justify-between px-6 py-8 bg-light-blue-400"
-        >
-          <p className="text-white font-bold">CodeLeap Network</p>
-          <button 
-            className="text-white text-sm border-2 p-1 rounded-lg hover:bg-light-blue-600 transition-colors"
-            onClick={() => handleLogout()}
+    <>
+      {/* <DeleteConfirmationModal /> */}
+      <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
+        <div className="w-1/2 h-full bg-white">
+          <header 
+            className="w-full h-2 flex items-center justify-between px-6 py-8 bg-light-blue-400"
           >
-            Logout
-          </button>
-        </header>
-        <form
-          className="m-6 border-2 border-gray-400 py-3 px-5 rounded-xl flex flex-col gap-4"
-          onSubmit={(e) => handleFormSubmit(e)}
-        >
-          <h1 className="font-extrabold text-lg">What's on your mind?</h1>
-          <div>
-            <p>Title</p>
-            <input
-              type="text" 
-              placeholder="Hello world"
-              className="w-full border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div>
-            <p>Content</p>
-            <textarea
-              placeholder="Content here"
-              className="w-full h-[74px] resize-none border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </div>
-          <SubmitButton title="CREATE" disabled={handleButtonDisabled()} />
-        </form>
+            <p className="text-white font-bold">CodeLeap Network</p>
+            <button 
+              className="text-white text-sm border-2 p-1 rounded-lg hover:bg-light-blue-600 transition-colors"
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </button>
+          </header>
+          <form
+            className="m-6 border-2 border-gray-400 py-3 px-5 rounded-xl flex flex-col gap-4"
+            onSubmit={(e) => handleFormSubmit(e)}
+          >
+            <h1 className="font-extrabold text-lg">What's on your mind?</h1>
+            <div>
+              <p>Title</p>
+              <input
+                type="text" 
+                placeholder="Hello world"
+                className="w-full border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <p>Content</p>
+              <textarea
+                placeholder="Content here"
+                className="w-full h-[74px] resize-none border-2 border-gray-400 px-2 py-1 rounded-md mt-1"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
+            <SubmitButton title="CREATE" disabled={handleButtonDisabled()} />
+          </form>
 
-        {blogPosts.map((blogPost) => {
-          return (
-            <BlogPost 
-              key={blogPost.id} 
-              post={blogPost} 
-              handleRemovePost={handleRemovePost} 
-            />
-          )
-        })}
+          {blogPosts.map((blogPost) => {
+            return (
+              <BlogPost 
+                key={blogPost.id} 
+                post={blogPost} 
+                handleRemovePost={handleRemovePost} 
+              />
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
