@@ -12,6 +12,8 @@ export function MainScreen() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [blogPosts, setBlogPosts] = useState<PostData[]>([]);
+  const [postId, setPostId] = useState<number | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const loginUsername = useSelector<RootState, string>(
     (state: RootState) => state.login.loginUsername
   );
@@ -47,6 +49,14 @@ export function MainScreen() {
     dispatch(setLoginUsername(""));
   }
 
+  function handleSetPostId(id: number) {
+    setPostId(id);
+  }
+
+  function toggleDeleteConfirmationModal() {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
+  }
+
   useEffect(() => {
     fetch('https://dev.codeleap.co.uk/careers/')
       .then(response => response.json())
@@ -58,7 +68,13 @@ export function MainScreen() {
 
   return (
     <>
-      {/* <DeleteConfirmationModal /> */}
+      {isDeleteModalOpen && (
+        <DeleteConfirmationModal 
+          id={postId} 
+          handleRemovePost={handleRemovePost}
+          toggleDeleteConfirmationModal={toggleDeleteConfirmationModal}
+        />
+      )}
       <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
         <div className="w-1/2 h-full bg-white">
           <header 
@@ -104,7 +120,8 @@ export function MainScreen() {
               <BlogPost 
                 key={blogPost.id} 
                 post={blogPost} 
-                handleRemovePost={handleRemovePost} 
+                handleSetPostId={handleSetPostId}
+                toggleDeleteConfirmationModal={toggleDeleteConfirmationModal} 
               />
             )
           })}
