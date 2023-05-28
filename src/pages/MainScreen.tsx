@@ -29,9 +29,11 @@ export function MainScreen() {
     return true;
   }
 
-  function handleRemovePost(id: number) {
-    const newPosts = blogPosts.filter((bp) => bp.id !== id);
-    setBlogPosts(newPosts);
+  function handleUpdateBlogPosts() {
+    getPostsRequests()
+    .then(posts => {
+      if (posts) setBlogPosts(posts);
+    });
   }
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
@@ -65,10 +67,7 @@ export function MainScreen() {
   }
 
   useEffect(() => {
-    getPostsRequests()
-    .then(posts => {
-      if (posts) setBlogPosts(posts);
-    });
+    handleUpdateBlogPosts();
   }, []);
 
   return (
@@ -76,7 +75,7 @@ export function MainScreen() {
       {isDeleteModalOpen && (
         <DeleteConfirmationModal 
           id={currentPost ? currentPost.id : null}
-          handleRemovePost={handleRemovePost}
+          handleUpdateBlogPosts={handleUpdateBlogPosts}
           toggleDeleteConfirmationModal={toggleDeleteConfirmationModal}
         />
       )}
@@ -86,6 +85,7 @@ export function MainScreen() {
           currentPostTitle={currentPost ? currentPost.title : ""} 
           currentPostContent={currentPost ? currentPost.content : ""}
           toggleUpdateModal={toggleUpdateModal}
+          handleUpdateBlogPosts={handleUpdateBlogPosts}
         />
       )}
       <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">

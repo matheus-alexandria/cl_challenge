@@ -2,20 +2,20 @@ import { deletePostRequest } from "../actions/deletePostRequest";
 
 interface DeleteConfirmationModalProps {
   id: number | null;
-  handleRemovePost: (id: number) => void;
+  handleUpdateBlogPosts: () => void;
   toggleDeleteConfirmationModal: () => void;
 }
 
 export function DeleteConfirmationModal({ 
   id,
-  handleRemovePost,
+  handleUpdateBlogPosts,
   toggleDeleteConfirmationModal
 }: DeleteConfirmationModalProps) {
   async function handleDeletePost() {
     if (id) {
       const status = await deletePostRequest(id);
       if (status === 204) {
-        handleRemovePost(id);
+        handleUpdateBlogPosts();
         toggleDeleteConfirmationModal();
       }
     }

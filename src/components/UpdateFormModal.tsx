@@ -1,19 +1,20 @@
 import { FormEvent, useState } from "react";
 import { patchPostRequest } from "../actions/patchPostRequest";
-import { getPostsRequests } from "../actions/getPostsRequest";
 
 interface UpdateFormModal {
   id: number | null;
   currentPostTitle: string;
   currentPostContent: string;
   toggleUpdateModal: () => void;
+  handleUpdateBlogPosts: () => void;
 }
 
 export function UpdateFormModal({
   id,
   toggleUpdateModal,
   currentPostTitle = "", 
-  currentPostContent = ""
+  currentPostContent = "",
+  handleUpdateBlogPosts
 }: UpdateFormModal) {
   const [title, setTitle] = useState(currentPostTitle);
   const [content, setContent] = useState(currentPostContent);
@@ -27,8 +28,10 @@ export function UpdateFormModal({
         content
       })
       .then((status) => {
-        console.log(status);
-        toggleUpdateModal();
+        if (status === 200) {
+          toggleUpdateModal();
+          handleUpdateBlogPosts();
+        }
       });
     }
   }
