@@ -42,6 +42,7 @@ export function MainScreen() {
       let allPosts = [];
       if (addPosts) {
         allPosts = [...blogPosts, ...posts];
+        console.log(allPosts.length);
       } else {
         allPosts = posts;
       }
@@ -88,7 +89,7 @@ export function MainScreen() {
       const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
       const scrollPosition = scrollTop + clientHeight;
 
-      if (scrollPosition === scrollHeight) {
+      if ((scrollPosition + 10) >= scrollHeight) {
         handleUpdateBlogPosts(true, 10, blogPosts.length);
       }
     };
