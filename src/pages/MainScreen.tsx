@@ -29,10 +29,23 @@ export function MainScreen() {
     return true;
   }
 
-  function handleUpdateBlogPosts() {
-    getPostsRequests()
+  function handleUpdateBlogPosts(
+    addPosts = false, 
+    limit = 10, 
+    offset = 0
+  ) {
+    getPostsRequests({
+      limit,
+      offset
+    })
     .then(posts => {
-      if (posts) setBlogPosts(posts);
+      let allPosts = [];
+      if (addPosts) {
+        allPosts = [...blogPosts, ...posts];
+      } else {
+        allPosts = posts;
+      }
+      if (posts) setBlogPosts(allPosts);
     });
   }
 
@@ -69,6 +82,23 @@ export function MainScreen() {
   useEffect(() => {
     handleUpdateBlogPosts();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      const scrollPosition = scrollTop + clientHeight;
+
+      if (scrollPosition === scrollHeight) {
+        handleUpdateBlogPosts(true, 10, blogPosts.length);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [blogPosts.length])
 
   return (
     <>
