@@ -119,7 +119,7 @@ export function MainScreen() {
         />
       )}
       <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
-        <div className="w-1/2 h-full bg-white">
+        <div className="w-1/2 min-h-screen bg-white">
           <header 
             className="w-full h-2 flex items-center justify-between px-6 py-8 bg-light-blue-400"
           >
