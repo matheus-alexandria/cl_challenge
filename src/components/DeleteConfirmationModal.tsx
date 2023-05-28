@@ -28,7 +28,7 @@ export function DeleteConfirmationModal({
         
         <div className="flex justify-end gap-3">
           <button 
-            type="submit" 
+            type="button"
             onClick={() => toggleDeleteConfirmationModal()}
             className="w-[7.5rem] h-8 rounded-lg text-black font-bold border-2 border-gray-400 hover:bg-gray-300 transition-colors"
           >
@@ -36,7 +36,7 @@ export function DeleteConfirmationModal({
           </button>
 
           <button 
-            type="submit"
+            type="button"
             onClick={() => handleDeletePost()}
             className="w-[7.5rem] h-8 rounded-lg text-white font-bold bg-del-red-500 hover:bg-red-700 transition-colors"
           >

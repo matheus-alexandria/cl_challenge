@@ -1,21 +1,36 @@
 import { FormEvent, useState } from "react";
+import { patchPostRequest } from "../actions/patchPostRequest";
+import { getPostsRequests } from "../actions/getPostsRequest";
 
 interface UpdateFormModal {
+  id: number | null;
   currentPostTitle: string;
   currentPostContent: string;
-  toggleUpdateConfirmationModal: () => void;
+  toggleUpdateModal: () => void;
 }
 
-export function UpdateFormModal({ 
-  toggleUpdateConfirmationModal,
+export function UpdateFormModal({
+  id,
+  toggleUpdateModal,
   currentPostTitle = "", 
   currentPostContent = ""
 }: UpdateFormModal) {
   const [title, setTitle] = useState(currentPostTitle);
   const [content, setContent] = useState(currentPostContent);
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleUpdateFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (id) {
+      patchPostRequest({
+        id,
+        title,
+        content
+      })
+      .then((status) => {
+        console.log(status);
+        toggleUpdateModal();
+      });
+    }
   }
 
   function handleSaveButtonEnabled() {
@@ -30,7 +45,7 @@ export function UpdateFormModal({
     <div className="w-screen h-screen fixed flex items-center justify-center bg-[#777777] bg-opacity-80 z-10">
       <form
         className="min-w-[40%] m-6 bg-white p-6 rounded-xl flex flex-col gap-4"
-        onSubmit={(e) => handleFormSubmit(e)}
+        onSubmit={(e) => handleUpdateFormSubmit(e)}
       >
         <h1 className="font-extrabold text-lg">Edit item</h1>
         <div>
@@ -55,8 +70,8 @@ export function UpdateFormModal({
 
         <div className="flex justify-end gap-3">
           <button 
-            type="submit" 
-            onClick={() => toggleUpdateConfirmationModal()}
+            type="button"
+            onClick={() => toggleUpdateModal()}
             className="w-[7.5rem] h-8 rounded-lg text-black font-bold border-2 border-gray-400 hover:bg-gray-300 transition-colors"
           >
             Cancel
@@ -64,8 +79,7 @@ export function UpdateFormModal({
 
           <button 
             type="submit"
-            onClick={() => console.log("Update")}
-            disabled={handleSaveButtonEnabled()}
+            disabled={!handleSaveButtonEnabled()}
             className={`w-[7.5rem] h-8 rounded-lg text-white font-bold transition-colors ${
               handleSaveButtonEnabled() ? 'bg-[#47b960] hover:bg-green-700' : 'bg-gray-500 opacity-75'
             }`}

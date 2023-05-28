@@ -60,7 +60,7 @@ export function MainScreen() {
     setIsDeleteModalOpen(!isDeleteModalOpen);
   }
 
-  function toggleUpdateConfirmationModal() {
+  function toggleUpdateModal() {
     setIsUpdateModalOpen(!isUpdateModalOpen);
   }
 
@@ -75,16 +75,17 @@ export function MainScreen() {
     <>
       {isDeleteModalOpen && (
         <DeleteConfirmationModal 
-          id={currentPost ? currentPost.id : null} 
+          id={currentPost ? currentPost.id : null}
           handleRemovePost={handleRemovePost}
           toggleDeleteConfirmationModal={toggleDeleteConfirmationModal}
         />
       )}
       {isUpdateModalOpen && (
-        <UpdateFormModal 
+        <UpdateFormModal
+          id={currentPost ? currentPost.id : null}
           currentPostTitle={currentPost ? currentPost.title : ""} 
           currentPostContent={currentPost ? currentPost.content : ""}
-          toggleUpdateConfirmationModal={toggleUpdateConfirmationModal}
+          toggleUpdateModal={toggleUpdateModal}
         />
       )}
       <div className="w-screen min-h-[100vh] flex items-center justify-center bg-[#dddddd]">
@@ -133,7 +134,8 @@ export function MainScreen() {
                 key={blogPost.id} 
                 post={blogPost} 
                 handleSetCurrentPost={handleSetCurrentPost}
-                toggleDeleteConfirmationModal={toggleDeleteConfirmationModal} 
+                toggleDeleteConfirmationModal={toggleDeleteConfirmationModal}
+                toggleUpdateModal={toggleUpdateModal}
               />
             )
           })}
