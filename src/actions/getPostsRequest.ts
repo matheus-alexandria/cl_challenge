@@ -9,7 +9,5 @@ export async function getPostsRequests({ limit, offset = 0 }: GetPostsQueueParam
   );
   const postData = await response.json();
 
-  console.log(postData.next);
-
   return postData.results;
 }

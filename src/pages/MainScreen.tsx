@@ -42,7 +42,6 @@ export function MainScreen() {
       let allPosts = [];
       if (addPosts) {
         allPosts = [...blogPosts, ...posts];
-        console.log(allPosts.length);
       } else {
         allPosts = posts;
       }
